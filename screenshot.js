@@ -5,7 +5,7 @@ async function run() {
   const page = await browser.newPage();
   
   await page.goto('https://www.frc.utn.edu.ar/logon.frc');
-  await page.screenshot({ path: 'screenshots/github.png' });
+  await page.screenshot({ path: 'screenshots/logon.png' });
   
   browser.close();
 }
