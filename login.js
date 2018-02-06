@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const CREDS = require('./creds');
 const Materia = require('./entidades');
-const Materias = require('./model/modelsmon');
+const db = require('./model/models');
 
 // Elementos del DOM
 const USUARIO_SELECTOR = '#txtUsuario';
@@ -67,12 +67,18 @@ async function run() {
   }
   console.log("Materias: " & lista_materias.length & ".");
   browser.close();
-  return lista_materias;
+  resultado = lista_materias;
+  var novedades = obtener_novedades(resultado);
+  if (novedades.length > 0) {
+    guardar_notas(resultado);
+    avisar_novedades(novedades);
+  }
 }
 
 function obtener_novedades(materias){
+  var guardadas = obtener_guardadas();
+  
   var novedades = [];
-  var guardadas = []; //TODO: Traer de MongoDB
   if (materias.length === guardadas.length)
     for(i=0;i<materias.length;i++)
       if(!materias[i].equals(guardadas[i]))
@@ -82,12 +88,20 @@ function obtener_novedades(materias){
           novedades.push("Hay cambios entre materias.");
     else
       novedades.push("Hay cambios entre materias.");
+  else
+    novedades.push("Hay cambios entre materias.");
   return novedades;
 }
 
+async function obtener_guardadas(){
+  db.FindMaterias().then(function(items) {
+    return items;
+  }, function(err) {
+    console.error('The promise was rejected', err, err.stack);
+  });
+}
+
 function guardar_notas(materias){
-  const DB_URL = '' //TODO: ?
-  if (mongoose.connection.readyState == 0) { mongoose.connect(DB_URL); }
   return null; //TODO: limpiar MongoDB e insertar.
 }
 
@@ -95,10 +109,7 @@ function avisar_novedades(novedades){
   require("openurl").open("https://www.frc.utn.edu.ar"); //TODO: notificacion en pantalla.
 }
 
-var resultado = run();
-/*var novedades = hay_novedad(resultado);
-if (novedades.length > 0) {
-  guardar_notas(resultado);
-  avisar_novedades(novedades);
-}
-*/
+//run();
+nove = obtener_novedades([]);
+console.log(nove);
+process.exit();
