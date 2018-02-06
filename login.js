@@ -41,18 +41,24 @@ async function run() {
   var nota;
   var lista_materias = [];
   const enlace_materia = "#iz > table > tbody > tr > td.tTit";
-  for (i=1; i<= 15; i+=2){
+  var i = 1;
+  while (true){
     enlace = "#table-1 > tbody > tr:nth-child(" + i + ") > td:nth-child(9) > a";
-    await page.evaluate((enlace) => {
-      document.querySelector(enlace).click();
-    }, enlace);
+    try {
+      await page.evaluate((enlace) => {
+        document.querySelector(enlace).click();
+      }, enlace);
+     } catch (e) {
+      console.log("Cacheado.");
+      break;
+    }
     await page.waitFor(TIMEOUT);
     //await page.waitForNavigation();
     //await page.screenshot({ path: 'screenshots/primera.png' });
     materia = await page.evaluate((enlace_materia) =>
         document.querySelector(enlace_materia).innerText, enlace_materia);
     materia = getNombreMateria(materia);
-    //console.log(materia);
+    console.log(materia);
     let objMateria = new Materia(materia);
     for (j=2; j <= 12; j++) {
       selector = "#ps > table:nth-child(1) > tbody > tr:nth-child(3) > td:nth-child(" + j + ") > p";
@@ -63,6 +69,7 @@ async function run() {
         objMateria.notas.push(nota);
     }
     lista_materias.push(objMateria);
+    i += 2;
     await page.goBack();
   }
   console.log("Materias: " & lista_materias.length & ".");
@@ -109,7 +116,7 @@ function avisar_novedades(novedades){
   require("openurl").open("https://www.frc.utn.edu.ar"); //TODO: notificacion en pantalla.
 }
 
-//run();
-nove = obtener_novedades([]);
+run();
+/*nove = obtener_novedades([]);
 console.log(nove);
-process.exit();
+process.exit();*/
