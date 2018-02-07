@@ -40,14 +40,6 @@ describe('Materia', function(){
   })
 });
 
-describe('Correos', function(){
-  describe('#avisar_novedades()', function(){
-    it('Se envía mail.', function(){
-      assert.equal(funciones.avisar_novedades([]), true);
-    });
-  })
-});
-
 describe('Novedades', function(){
   describe('#hay_diferencia_notas()', function(){
     it('No hay diferencia.', function(){
