@@ -38,6 +38,17 @@ var funciones = module.exports = {
                     console.log('Novedad: ' + nueva_novedad.descripcion);
                 });
             }
+            Novedad.find({}, function(err, novedades) {
+                if (err) throw err;
+                if (novedades.length>0){
+                  funciones.avisar_novedades(novedades);
+                  funciones.guardar_notas(resultado);
+                  funciones.avisar_novedades(novedades);  
+                  Novedad.remove({},function(){
+                    console.log("Se borraron las novedades");
+                  });
+                }
+              });
         });  
     },
 
@@ -46,11 +57,9 @@ var funciones = module.exports = {
     },
 
     avisar_novedades:function(novedades){
-        require("openurl").open("https://www.frc.utn.edu.ar"); //TODO: notificacion en pantalla o email.
-        Novedad.remove({},function(){
-            console.log("Se borraron las novedades");
-        });
+        require("openurl").open("https://www.frc.utn.edu.ar"); //TODO: notificacion en pantalla o email. 
     },    
+
     guardar_notas:function(materias){
         Materia.remove({},function(){
             console.log("Se borraron las materias anteriores.");

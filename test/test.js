@@ -11,7 +11,7 @@ describe('Modelo', function(){
         assert.equal(guardadas.length>0, true);
       });
     });
-    
+
   describe('#guardar_notas()', function(){
     it('Debe eliminar y cargar las nuevas.', function(){
       var nueva = new Materia({nombre: "Mat", notas: [10,2,9]});
@@ -36,6 +36,14 @@ describe('Materia', function(){
     it('Devolver nombre de materia recortado.', function(){
       let cadena = " 01 MI AULA VIRTUAL en Investigación Operativa  ";
       assert.equal(funciones.get_nombre_materia(cadena), "Investigación Operativa");
+    });
+  })
+});
+
+describe('Correos', function(){
+  describe('#avisar_novedades()', function(){
+    it('Se envía mail.', function(){
+      assert.equal(funciones.avisar_novedades([]), true);
     });
   })
 });
