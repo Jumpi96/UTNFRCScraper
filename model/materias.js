@@ -1,13 +1,15 @@
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost:27017/UTNScraper');
-var Schema = mongoose.Schema;
-
-var materiaSchema = new Schema({
-    nombre: String,
-    notas: Array
-})
-
-var Materia = mongoose.model('Materia', materiaSchema);
+function Materia(nombre) {
+    this.nombre = nombre;
+    this.notas = [];
+    this.equals = function(otra_materia) {
+        if (this.nombre !== otra_materia.nombre || this.notas.length !== otra_materia.notas.length)
+            return false;
+        else
+            for (i=0; i<this.notas.length; i++)
+                if (this.notas[i] !== otra_materia.notas[i])
+                    return false;
+            return true;
+    }
+}
 
 module.exports = Materia;

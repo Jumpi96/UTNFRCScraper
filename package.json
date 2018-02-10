@@ -9,9 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.33",
-    "mongoose": "^5.0.3",
-    "nodemailer": "^4.4.2",
+    "node-json-db": "^0.7.3",
     "openurl": "^1.1.1",
     "puppeteer": "^1.0.0"
   }

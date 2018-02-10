@@ -3,7 +3,7 @@
 ### Herramientas: 
 - Puppeteer: libería para controlar Chrome/Chromium *headless*.
 - NodeJS
-- MongoDB: base de datos NoSQL.
+- node-json-db: base de datos JSON.
 - VS Code: IDE.
 - Mocha: framework de pruebas.
 ### Funcionalidades
@@ -12,7 +12,6 @@
 - Guarda las nuevas notas si hay novedades.
 - Abre el sitio de la Facultad si existen nuevas notas.
 ### Requerimientos
-- Mongo DB (https://www.mongodb.com/es)
 - NodeJS v. 9.8.4 (https://nodejs.org/es/)
 
 ### Credenciales

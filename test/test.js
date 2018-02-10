@@ -1,31 +1,24 @@
-var assert = require("assert"); // node.js core module
+var assert = require("assert");
 var Materia = require("../model/materias.js");
-var Novedad = require("../model/novedades.js");
 var funciones = require("../funciones.js")
+var JsonDB = require('node-json-db');
+var db = new JsonDB("TestDB", true, true);
+
 
 describe('Modelo', function(){
   describe('#FindMaterias()', function(){
     it('Debe devolver al menos una materia.', function(){
-      Materia.find({}, function(err, guardadas) {
-        if (err) throw err;
-        assert.equal(guardadas.length>0, true);
-      });
+      db.push("/materias[]", new Materia("Mat"), true);
+      assert.equal(db.getData("/materias").length > 0, true);
     });
 
   describe('#guardar_notas()', function(){
     it('Debe eliminar y cargar las nuevas.', function(){
-      var nueva = new Materia({nombre: "Mat", notas: [10,2,9]});
-      funciones.guardar_notas([nueva]);
-      setTimeout(function () {  
-        Materia.find({nombre: nueva.nombre}, function(err, guardadas) {
-          if (err) throw err;
-          assert.equal(guardadas.length === 1, true);
-        });
-        Materia.find({}, function(err, guardadas) {
-          if (err) throw err;
-          assert.equal(guardadas.length === 1, true);
-        });  
-      }, 3000);
+      var nueva = new Materia("Mat");
+      nueva.notas = [10,2,9];
+      funciones.guardar_notas(db, [nueva]);
+      assert.equal(db.getData("/materias").length === 1, true);
+      assert.equal(db.getData("/materias[0]/nombre") === "Mat", true);
     })
   })
   })
@@ -41,24 +34,41 @@ describe('Materia', function(){
 });
 
 describe('Novedades', function(){
+  describe('#obtener_novedades()', function(){
+    it('No hay novedad.'), function(){
+      assert.equal(true,false);
+    }
+    it('Hay nuevas materias.'), function(){
+      assert.equal(true,false);
+    }
+    it('Hay notas nuevas.'), function(){
+      assert.equal(true,false); 
+    }
+  })
   describe('#hay_diferencia_notas()', function(){
     it('No hay diferencia.', function(){
-      var vieja = new Materia({nombre: "Diseño", notas: [10,2,10]});
-      var nueva = new Materia({nombre: "Diseño", notas: [10,2,10]});
+      var vieja = new Materia("Diseño");
+      vieja.notas = [10,2,10];
+      var nueva = new Materia("Diseño");
+      nueva.notas = [10,2,10];
       
-      assert.equal(funciones.hay_diferencia_notas(vieja, nueva), false);
+      assert.equal(!vieja.equals(nueva), false);
     })
     it('Hay diferencia entre las notas.', function(){
-      var vieja = new Materia({nombre: "Diseño", notas: [10,2,10]});
-      var nueva = new Materia({nombre: "Diseño", notas: [10,2,9]});
+      var vieja = new Materia("Diseño");
+      vieja.notas = [10,2,10];
+      var nueva = new Materia("Diseño");
+      nueva.notas =  [10,2,9];
       
-      assert.equal(funciones.hay_diferencia_notas(vieja, nueva), true);
+      assert.equal(!vieja.equals(nueva), true);
     })
     it('Hay nuevas notas.', function(){
-      var vieja = new Materia({nombre: "Diseño", notas: [10,2,10]});
-      var nueva = new Materia({nombre: "Diseño", notas: [10,2,10,2]});
+      var vieja = new Materia("Diseño");
+      vieja.notas = [10,2,10];
+      var nueva = new Materia("Diseño");
+      nueva.notas =  [10,2,10,2];
       
-      assert.equal(funciones.hay_diferencia_notas(vieja, nueva), true);
+      assert.equal(!vieja.equals(nueva), true);
     })
   })
 });
