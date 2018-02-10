@@ -1,11 +1,17 @@
 {
     "materias": [
         {
-            "nombre": "Mat",
+            "nombre": "Diseño",
             "notas": [
                 10,
-                2,
-                9
+                5
+            ]
+        },
+        {
+            "nombre": "Análisis",
+            "notas": [
+                10,
+                7
             ]
         }
     ]

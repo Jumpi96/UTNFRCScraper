@@ -2,7 +2,9 @@ const puppeteer = require('puppeteer');
 const CREDS = require('./creds');
 const Materia = require('./model/materias');
 const funciones = require('./funciones');
+const JsonDB = require('node-json-db');
 
+var db = new JsonDB("DB", true, true);
 const TIMEOUT = 5000;
 
 async function run() {
@@ -64,7 +66,12 @@ async function run() {
       break;
   }
   browser.close();
-  funciones.obtener_novedades(lista_materias);
+  var novedades = funciones.obtener_novedades(db, lista_materias);
+  if (novedades.length > 0)
+  {
+    funciones.guardar_notas(db, lista_materias);
+    funciones.avisar_novedades(novedades); 
+  }
 }
 
 try{

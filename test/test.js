@@ -35,15 +35,42 @@ describe('Materia', function(){
 
 describe('Novedades', function(){
   describe('#obtener_novedades()', function(){
-    it('No hay novedad.'), function(){
-      assert.equal(true,false);
-    }
-    it('Hay nuevas materias.'), function(){
-      assert.equal(true,false);
-    }
-    it('Hay notas nuevas.'), function(){
-      assert.equal(true,false); 
-    }
+    it('No hay novedad.', function(){
+      db.delete("/materias");
+      var mat_1 = new Materia("Diseño");
+      mat_1.notas = [10, 5];
+      var mat_2 = new Materia("Análisis");
+      mat_2.notas = [10, 7];
+      var materias = [mat_1, mat_2];
+      db.push("/materias", materias);
+      assert.equal(funciones.obtener_novedades(db, materias).length === 0, true);
+    })
+    it('Hay nuevas materias.', function(){
+      db.delete("/materias");
+      var mat_1 = new Materia("Diseño");
+      mat_1.notas = [10, 5];
+      var mat_2 = new Materia("Análisis");
+      mat_2.notas = [10, 7];
+      var materias = [mat_1, mat_2];
+      db.push("/materias", materias);
+      var mat_3 = new Materia("Implementación");
+      mat_3.notas = [10];
+      var nuevas = [mat_1, mat_2, mat_3];
+      assert.equal(funciones.obtener_novedades(db, nuevas)[0] === "Hay cambios entre materias.", true);
+    })
+    it('Hay notas nuevas.', function(){
+      db.delete("/materias");
+      var mat_1 = new Materia("Diseño");
+      mat_1.notas = [10, 5];
+      var mat_2 = new Materia("Análisis");
+      mat_2.notas = [10, 7];
+      var materias = [mat_1, mat_2];
+      db.push("/materias", materias);
+      var mat_2_nueva = new Materia("Análisis");
+      mat_2_nueva.notas = [10, 10];
+      var nuevas = [mat_1, mat_2_nueva];
+      assert.equal(funciones.obtener_novedades(db, nuevas).length === 1, true);
+    })
   })
   describe('#hay_diferencia_notas()', function(){
     it('No hay diferencia.', function(){

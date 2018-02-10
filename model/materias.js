@@ -5,8 +5,8 @@ function Materia(nombre) {
         if (this.nombre !== otra_materia.nombre || this.notas.length !== otra_materia.notas.length)
             return false;
         else
-            for (i=0; i<this.notas.length; i++)
-                if (this.notas[i] !== otra_materia.notas[i])
+            for (j=0; j<this.notas.length; j++)
+                if (this.notas[j] !== otra_materia.notas[j])
                     return false;
             return true;
     }

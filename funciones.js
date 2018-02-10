@@ -5,25 +5,26 @@ var JsonDB = require('node-json-db');
 var funciones = module.exports = {
     obtener_novedades:function(db, materias){
         var novedad = "";
-        Materia.find({}, function(err, guardadas) {
-            if (err) throw err;
-            if (materias.length === guardadas.length){
-                for(i=0;i<materias.length;i++){
-                    if(!materias[i].equals(guardadas[i])){
-                        if(materias[i].nombre === guardadas[i].nombre)
-                            novedad = "Hay cambios en " + materias[i].nombre + ".";
-                        else
-                            novedad = "Hay cambios entre materias.";
-                    }
+        var guardadas = db.getData("/materias");
+        if (materias.length === guardadas.length){
+            for(i=0;i<materias.length;i++){
+                if(!materias[i].equals(guardadas[i])){
+                    if(materias[i].nombre === guardadas[i].nombre)
+                        novedad = "Hay cambios en " + materias[i].nombre + ".";
+                    else
+                        novedad = "Hay cambios entre materias.";
                 }
             }
-            else
-                novedad = "Hay cambios entre materias.";
-            if (novedad !== "") {
-                funciones.guardar_notas(db, resultado);
-                funciones.avisar_novedades(novedades);  
-            }
-        });  
+        }
+        else
+            novedad = "Hay cambios entre materias.";
+        if (novedad !== ""){
+            console.log(novedad);
+            return [novedad];
+        }
+        else
+            return [];
+        
     },
 
     get_nombre_materia:function(cadena){
