@@ -71,4 +71,11 @@ async function run() {
   funciones.obtener_novedades(resultado);
 }
 
-run();
+try{
+  run();
+}
+catch(error)
+{
+  console.log("No se pudo ejecutar.")
+}
+

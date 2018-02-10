@@ -1,11 +1,26 @@
 var Novedad = require("./model/novedades.js");
 var Materia = require("./model/materias.js");
 
+function hay_diferencia_notas(guardada, nueva){
+    if (guardada.notas.length == nueva.notas.length){
+        for(i=0;i<guardada.notas.length;i++){
+            if(guardada.notas[i].toString() !== nueva.notas[i]){
+                return true;
+            }
+        }
+    }
+    else
+    {
+        return true;
+    }
+    return false;
+}
+
 var funciones = module.exports = {
     hay_diferencia_notas:function(guardada, nueva){
         if (guardada.notas.length == nueva.notas.length){
             for(i=0;i<guardada.notas.length;i++){
-                if(guardada.notas[i] !== nueva.notas[i]){
+                if(guardada.notas[i].toString() !== nueva.notas[i]){
                     return true;
                 }
             }
@@ -20,14 +35,15 @@ var funciones = module.exports = {
         var novedad = "";
         Materia.find({}, function(err, guardadas) {
             if (err) throw err;
-            var novedades = [];
-            if (materias.length === guardadas.length)
-            for(i=0;i<materias.length;i++){
-                if(hay_diferencia_notas(materias[i], guardadas[i]))
-                if(materias[i].nombre === guardadas[i].nombre)
-                    novedad = "Hay cambios en " + materias[i].nombre + ".";
-                else
-                    novedad = "Hay cambios entre materias.";
+            if (materias.length === guardadas.length){
+                for(i=0;i<materias.length;i++){
+                    if(hay_diferencia_notas(materias[i], guardadas[i])){
+                        if(materias[i].nombre === guardadas[i].nombre)
+                            novedad = "Hay cambios en " + materias[i].nombre + ".";
+                        else
+                            novedad = "Hay cambios entre materias.";
+                    }
+                }
             }
             else
                 novedad = "Hay cambios entre materias.";
@@ -41,7 +57,6 @@ var funciones = module.exports = {
             Novedad.find({}, function(err, novedades) {
                 if (err) throw err;
                 if (novedades.length>0){
-                  funciones.avisar_novedades(novedades);
                   funciones.guardar_notas(resultado);
                   funciones.avisar_novedades(novedades);  
                   Novedad.remove({},function(){
