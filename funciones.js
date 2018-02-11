@@ -1,6 +1,7 @@
 var Materia = require("./model/materias.js");
 var JsonDB = require('node-json-db');
-//
+var nodemailer = require('nodemailer');
+const CREDS = require('./creds');
 
 var funciones = module.exports = {
     obtener_novedades:function(db, materias){
@@ -32,7 +33,29 @@ var funciones = module.exports = {
     },
 
     avisar_novedades:function(novedades){
-        require("openurl").open("https://www.frc.utn.edu.ar"); //TODO: notificacion en pantalla o email. 
+        let novedad = novedades[0];
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'utnfrcscraper@gmail.com',
+                pass: 'wwwfrcutneduar'
+            }
+        });
+        var mailOptions = {
+            from: 'utnfrcscraper@gmail.com',
+            to: CREDS.correo,
+            subject: 'UTN FRC Scraper: Novedades',
+            html: `<h1>UTN FRC Scraper</h1>
+                <p>Se detectaron novedades en sus notas:</p><ul><li>${novedad}</li></ul>`
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+              throw false;
+            } else {
+              console.log('Correo enviado.');
+            }
+        }); 
     },    
 
     guardar_notas:function(db, materias){

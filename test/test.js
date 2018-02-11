@@ -33,6 +33,21 @@ describe('Materia', function(){
   })
 });
 
+describe('Notificacion', function(){
+  describe('Enviar correo', function(){
+    it('Debe enviar el correo.', function(){
+      var falla = false;
+      try{
+        funciones.avisar_novedades(["Estoy probando el correo."])
+      }
+      catch(error){
+        falla = true;
+      }
+      assert.equal(falla, false);
+    });
+  })
+});
+
 describe('Novedades', function(){
   describe('#obtener_novedades()', function(){
     it('No hay novedad.', function(){

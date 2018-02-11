@@ -10,7 +10,7 @@
 - Toma automáticamente todas las notas del año lectivo.
 - Compara con las notas antes guardadas en la base de datos.
 - Guarda las nuevas notas si hay novedades.
-- Abre el sitio de la Facultad si existen nuevas notas.
+- Envía correo con el aviso de las novedades.
 ### Requerimientos
 - NodeJS v. 9.8.4 (https://nodejs.org/es/)
 
@@ -21,7 +21,8 @@ Guardar credenciales en un archivo *creds.js* de la forma:
 >module.exports = {
 >    usuario: 'tuLegajo',
 >    dominio: 'tuCarrera',
->    password: 'tuContraseña'
+>    password: 'tuContraseña',
+>    correo: 'tuMail'
 >}
 
 ### Calendarización
