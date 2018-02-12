@@ -42,6 +42,7 @@ describe('Notificacion', function(){
       }
       catch(error){
         falla = true;
+        console.log("Hubo un error al enviar el correo.");
       }
       assert.equal(falla, false);
     });

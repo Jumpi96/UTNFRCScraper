@@ -44,7 +44,7 @@ var funciones = module.exports = {
         var mailOptions = {
             from: 'utnfrcscraper@gmail.com',
             to: CREDS.correo,
-            subject: 'UTN FRC Scraper: Novedades',
+            subject: 'UTN FRC Scraper: Novedades - ' + hoy(),
             html: `<h1>UTN FRC Scraper</h1>
                 <p>Se detectaron novedades en sus notas:</p><ul><li>${novedad}</li></ul>`
         };
@@ -63,3 +63,13 @@ var funciones = module.exports = {
         db.push("/materias", materias, sobreescribir);
     }
 }
+
+function hoy(){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    return dd + "/" + mm + "/" + yyyy;
+}
+
+console.log(hoy());
