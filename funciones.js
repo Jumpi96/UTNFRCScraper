@@ -71,5 +71,3 @@ function hoy(){
     var yyyy = today.getFullYear();
     return dd + "/" + mm + "/" + yyyy;
 }
-
-console.log(hoy());

@@ -26,6 +26,12 @@ async function run() {
   await page.click('#btnEnviar');
   await page.waitFor(TIMEOUT);
   console.log("---Logueado.---");
+  
+  await page.click("#cmb1");
+  await page.keyboard.type("2018");
+  await page.keyboard.press('Enter');
+  await page.waitFor(TIMEOUT);
+  console.log("---Año seleccionado.---");
 
   var enlace, materia, selector, nota;
   var mas_materias = true;
