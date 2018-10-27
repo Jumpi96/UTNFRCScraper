@@ -1,7 +1,9 @@
 var Materia = require("./model/materias.js");
 var JsonDB = require('node-json-db');
-var nodemailer = require('nodemailer');
 const CREDS = require('./creds');
+var api_key = CREDS.api_key;
+var DOMAIN = CREDS.domain;
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: DOMAIN});
 
 var funciones = module.exports = {
     obtener_novedades:function(db, materias){
@@ -34,28 +36,16 @@ var funciones = module.exports = {
 
     avisar_novedades:function(novedades){
         let novedad = novedades[0];
-        var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'utnfrcscraper@gmail.com',
-                pass: 'wwwfrcutneduar'
-            }
-        });
-        var mailOptions = {
-            from: 'utnfrcscraper@gmail.com',
-            to: CREDS.correo,
+        var data = {
+            from: 'UTN FRC Scraper <utnfrcscraper@mailgun.com>',
+            to: 'juampilorenzo@gmail.com',
             subject: 'UTN FRC Scraper: Novedades - ' + hoy(),
             html: `<h1>UTN FRC Scraper</h1>
                 <p>Se detectaron novedades en sus notas:</p><ul><li>${novedad}</li></ul>`
-        };
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-              console.log(error);
-              throw false;
-            } else {
-              console.log('Correo enviado.');
-            }
-        }); 
+          };
+          mailgun.messages().send(data, function (error, body) {
+            console.log(body);
+          });
     },    
 
     guardar_notas:function(db, materias){

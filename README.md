@@ -22,7 +22,9 @@ Guardar credenciales en un archivo *creds.js* de la forma:
 >    usuario: 'tuLegajo',
 >    dominio: 'tuCarrera',
 >    password: 'tuContraseña',
->    correo: 'tuMail'
+>    correo: 'tuMail',
+>    apiKey: 'tuMailgunApiKey',
+>    domain: 'tuMailgunDominio'
 >}
 
 ### Calendarización

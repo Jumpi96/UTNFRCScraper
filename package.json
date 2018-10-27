@@ -11,6 +11,7 @@
   "dependencies": {
     "node-json-db": "^0.7.3",
     "nodemailer": "^4.4.2",
+    "mailgun-js": "0.21.0",
     "openurl": "^1.1.1",
     "puppeteer": "^1.0.0"
   }
