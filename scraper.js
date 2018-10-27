@@ -8,7 +8,9 @@ var db = new JsonDB("DB", true, true);
 const TIMEOUT = 5000;
 
 async function run() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    executablePath: '/usr/bin/chromium-browser'
+  });
   const page = await browser.newPage();
   
   // 1-Login
